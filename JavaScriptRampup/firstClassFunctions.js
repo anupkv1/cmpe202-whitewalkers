@@ -94,27 +94,3 @@ will be then checked for the prime number logic
 })(function(x,y){
 	return x+y;
 }(x,y));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
