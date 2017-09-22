@@ -1,0 +1,5 @@
+In order to run these scripts in the terminal you need to have nodeJS installed in your system
+
+To run these javascript files after installing node do the following :
+
+$ node filename.js
