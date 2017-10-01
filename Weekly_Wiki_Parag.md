@@ -1,3 +1,15 @@
+Week 2 (24 sept to 30 sept) :
+Functional Requirements analysis 2:
+a. The user should be able to choose a alias which would be used to associate a high score with it.
+b. The welcome screen should show the top 5 high scores.
+c. Users must be able to see the controls using a control menu.
+d. The user should be able to choose the difficulty level of the game from Easy, Medium, Hard.
+e. Some enemy units must a defined attack area.
+f. Some enemy units must have no bounded area of attack.
+
+XP Value : Communication
+To encouraged communication between each member of team, I suggested allocating individual time slots during the weekly meetings which ensured proper attention of every aspect of the project. Moreover, I ensured that the communication is focused and deep enough to be able to indentify key additions and improvments to the project.
+
 Week 1 (17 sept to 23 sept) :
 
 Functional Requirements analysis 1:
