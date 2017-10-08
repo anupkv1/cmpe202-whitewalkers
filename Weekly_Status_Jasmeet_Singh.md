@@ -1,3 +1,17 @@
+Week-3 (1-Oct to 7-Oct)
+
+Adapter and Chain to Responsibility Pattern 
+•	Understanding the usage and implementation of both the patterns.
+
+Understanding Javascript function creation and how to define function prototype
+
+Reference - 
+Head First Design Pattern (O'Reilly): Chapter-7 (Adapter)
+http://thejsguy.com/2015/10/16/the-adapter-pattern-in-javascript.html (Chain of Responsibility)
+
+XP Value: Communication 
+I request one of our team member to give basic idea about how to use Javascript function.This communication helped everyone in the team to visualize the project implementation using Javascript.
+
 Week-2 (24-Sept to 30-Sept) Status Report
 
 Observer Pattern
