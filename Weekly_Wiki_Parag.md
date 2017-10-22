@@ -1,3 +1,14 @@
+Week 4 (14 Oct to 21 Oct):
+Applying design patterns between objects in the game and testing which patterns works the best. Using chain of responsibily and Composite design patterns.
+XP Value : I ensured that the team has a simplistic view of the requirements while not having to introduce unnecessary complexity. I achieved this by helping to design simple task for each team members , keeping the focus on what is important and leaving out the rest.
+
+Week 3 (1 Oct to 7 Oct):
+Adding bullets functionality to player object.
+Defining collision relationship between enemy and bullets.
+Presenting last weeks work to the team.
+
+XP Value : 
+
 Week 2 (24 sept to 30 sept) :
 Functional Requirements analysis 2:
 a. The user should be able to choose a alias which would be used to associate a high score with it.
