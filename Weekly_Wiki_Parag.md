@@ -7,7 +7,9 @@ Adding bullets functionality to player object.
 Defining collision relationship between enemy and bullets.
 Presenting last weeks work to the team.
 
-XP Value : 
+XP Value : See the Whole
+
+In this week I made sure the team has made overall developement, we finalised the game today we discussed all the game features also divided the task to be completed for next week
 
 Week 2 (24 sept to 30 sept) :
 Functional Requirements analysis 2:
