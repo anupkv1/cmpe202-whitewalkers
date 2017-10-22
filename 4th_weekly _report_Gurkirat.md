@@ -29,3 +29,16 @@ Studied the following:
 
 XP value: Communication
 As I am working on scoring system for game, communicating with team mates is very important as I am only working on scoring by collecting fruits. There are other ways of scoring too, like killing enemies and running and jumping through map etc, on which other people are working. Therefore, talking with everybody to decide final scoring system.
+
+
+4th week (Oct 15 to Oct 21)
+
+Extending the topics of 3rd week, following topics are studied:
+1. MelonJS
+2. Map development on Tiled.
+3. behavioral design patterns:-
+   a) Chain of responsibility
+   b) Command
+   
+XP value: Simplicity
+While learning to work on Tiled, I started with developing simplest designs from tutorials, just following their instructions. Subsequently with little bit practice, little complexity was added to designs to make the interface better looking and more functional for our hero in the game.
