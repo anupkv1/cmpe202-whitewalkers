@@ -1,3 +1,18 @@
+Week-4 (16-Oct to 22-Oct)
+
+Singleton and Decorator Pattern 
+•	Understanding the usage and implementation of both the patterns.
+
+Understanding Javascript function creation and how to define function prototype
+
+Reference - 
+Head First Design Pattern (O'Reilly)
+
+
+XP Value: Communication 
+With in team, i try to collaborate more by sharing ideas, seeking each other help and delievering better results. 
+
+
 Week-3 (1-Oct to 7-Oct)
 
 Adapter and Chain to Responsibility Pattern 
