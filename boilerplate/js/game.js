@@ -124,3 +124,11 @@ var TitleScreen = me.ScreenObject.extend({
 var LevelChanger = me.ObjectEntity.extend({
 
 });
+
+var Baddie = me.ObjectEntity.extend({
+    init: function(x, y, settings) {
+        settings = settings || {}
+        settings.image = settings.image || 'robut';
+        settings.spritewidth = settings.spritewidth || 141;
+        settings.spriteheight = settings.spriteheight || 139;
+        });
