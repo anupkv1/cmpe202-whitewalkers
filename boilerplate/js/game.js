@@ -12,28 +12,94 @@ var game = {
     // Run on page load.
     "onload" : function () {
         // Initialize the video.
-        if (!me.video.init(960, 640, {wrapper : "screen", scale : "auto"})) {
-            alert("Your browser does not support HTML5 canvas.");
-            return;
+        if ( !me.video.init( 'canvas', screenWidth, screenHeight ) ) {
+            alert ("Yer browser be not workin");
         }
 
-        // Initialize the audio.
-        me.audio.init("mp3,ogg");
+        me.audio.init ("m4a,ogg" );
 
-        // set and load all resources.
-        // (this will also automatically switch to the loading screen)
-        me.loader.preload(game.resources, this.loaded.bind(this));
+        // Sync up post loading stuff.
+        me.loader.onload = this.loaded.bind( this );
+
+        me.loader.preload( GameResources );
+
+        me.state.change( me.state.LOADING );
+
+
+        return;
     },
 
     // Run on game resources loaded.
     "loaded" : function () {
-        me.state.set(me.state.MENU, new game.TitleScreen());
-        me.state.set(me.state.PLAY, new game.PlayScreen());
+      me.state.set( me.state.INTRO, new RadmarsScreen() );
+      me.state.set( me.state.MENU, new TitleScreen() );
+      me.state.set( me.state.PLAY, new PlayScreen() );
+      me.state.set( me.state.GAMEOVER, new GameOverScreen() );
 
-        // add our player entity in the entity pool
-        me.pool.register("mainPlayer", game.PlayerEntity);
+      me.state.change( me.state.INTRO);
 
-        // Start the game.
-        me.state.change(me.state.PLAY);
-    }
+      me.pool.register( "player", Player );
+      me.pool.register( "baddie", Baddie );
+
+      me.pool.register( "fish", Fish );
+      me.pool.register( "wasp", Wasp );
+      me.pool.register( "crab", Crab );
+      me.pool.register( "cat", Cat );
+
+      me.pool.register( "pickup", Pickup );
+      me.pool.register( "underworld", Underworld );
+      me.pool.register( "levelchanger", LevelChanger );
+      me.pool.register( "gameender", GameEnder );
+    };
 };
+
+game.data = {souls:1, collectedSouls:0, collectedSoulsMax:15, beatGame:false};
+
+game.HUD = game.HUD || {};
+
+game.HUD.Container = me.ObjectContainer.extend({
+    init: function() {
+        // call the constructor
+        this.parent();
+
+        this.isPersistent = true;
+        this.collidable = false;
+
+        // make sure our object is always draw first
+        this.z = Infinity;
+        this.name = "HUD";
+        this.soulDisplay = new game.HUD.SoulDisplay(25, 25);
+        this.addChild(this.soulDisplay);
+    },
+
+    startGame:function(){
+        this.soulDisplay.startGame();
+    },
+
+    endGame: function(){
+        this.soulDisplay.endGame();
+    },
+
+    toUnderworld: function() {
+        this.soulDisplay.toUnderworld();
+    }
+});
+
+Game.HUD.SoulDisplay = me.Renderable.extend( {
+
+});
+
+var HitEnter = me.Renderable.extend({
+
+});
+
+var GameOverScreen = me.ScreenObject.extend({
+
+});
+
+var TitleScreen = me.ScreenObject.extend({
+});
+
+var LevelChanger = me.ObjectEntity.extend({
+
+});
