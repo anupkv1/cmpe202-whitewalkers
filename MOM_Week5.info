@@ -1,0 +1,13 @@
+Minutes of Meeting Week 5 (21st October to 28th October)
+
+Date : 23rd October 2017
+
+1. Today we discussed on the code of some pre existing game code and how we can implement 
+   some design patterns in that raw code.
+   
+2. We divided the modules in the team member each corresponding to a different requirement lossely coupled
+   and could be worked on independently and will be integrated later.
+   
+3. Finalised on the new features that can be incorparated in the pre existing game.
+
+4. Discussed on how each pattern will meet on the requirements of each scenario.
