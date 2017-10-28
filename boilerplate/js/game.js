@@ -91,6 +91,27 @@ Game.HUD.SoulDisplay = me.Renderable.extend( {
 
 var HitEnter = me.Renderable.extend({
 
+  init: function( x, y ) {
+        this.cta = me.loader.getImage("introcta");
+        this.parent( new me.Vector2d(x,y), this.cta.width, this.cta.height );
+        this.floating = true;
+        this.z = 5;
+        this.ctaFlicker = 0;
+    },
+
+    draw: function(context) {
+        this.ctaFlicker++;
+        if( this.ctaFlicker > 20 )
+        {
+            context.drawImage( this.cta, this.pos.x, this.pos.y );
+            if( this.ctaFlicker > 40 ) this.ctaFlicker = 0;
+        }
+    },
+
+    update: function(dt) {
+        me.game.repaint();
+    }
+
 });
 
 var GameOverScreen = me.ScreenObject.extend({
