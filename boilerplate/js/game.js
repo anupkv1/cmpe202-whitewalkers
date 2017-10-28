@@ -131,4 +131,27 @@ var Baddie = me.ObjectEntity.extend({
         settings.image = settings.image || 'robut';
         settings.spritewidth = settings.spritewidth || 141;
         settings.spriteheight = settings.spriteheight || 139;
+        
+        this.type = settings.type;
+        this.skel = settings.skel;
+        if( settings.skel ) {
+            settings.image = settings.image + '_skel';
+        }
+        
+        this.parent( x, y, settings );
+        this.alwaysUpdate = false;
+        this.baddie = true;
+        this.setVelocity( 3, 15 );
+        this.setFriction( 0.4, 0 );
+        this.direction = 1;
+        this.collidable = true;
+        this.overworld = settings.overworld ? true : false;
+
+        // Hack...
+        me.state.current().baddies.push(this);
+
+        this.renderable.animationspeed = 70;
+    },
         });
+   
+
