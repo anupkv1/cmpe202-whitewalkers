@@ -38,3 +38,9 @@ Week 4 (15th oct to 21st oct) :
 Analyzed the diff MelonJS codes Analyzed different design pattern that could be incorporated for our Game.
 
 XP Value : Simplicity Started with implementing the various design pattern in pure object oriented paradigm. Moved on to next level by incorporating the same in the JS that is not pure Object Oriented Language. Achieved the same goals through prototypal chain, that one gets through inheritance
+
+
+
+Week 5 (22nd October to 28th October):
+Scrum Value : Focus 
+There was a well defined target i had for this iteration's target. One major task was on how to manipulate the players based on some keyevents. Focused on this goal and was able to maps some keys to the actual features. Will work with same focus for teh coming interations
