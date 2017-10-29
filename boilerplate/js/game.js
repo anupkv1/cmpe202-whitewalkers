@@ -91,6 +91,27 @@ Game.HUD.SoulDisplay = me.Renderable.extend( {
 
 var HitEnter = me.Renderable.extend({
 
+  init: function( x, y ) {
+        this.cta = me.loader.getImage("introcta");
+        this.parent( new me.Vector2d(x,y), this.cta.width, this.cta.height );
+        this.floating = true;
+        this.z = 5;
+        this.ctaFlicker = 0;
+    },
+
+    draw: function(context) {
+        this.ctaFlicker++;
+        if( this.ctaFlicker > 20 )
+        {
+            context.drawImage( this.cta, this.pos.x, this.pos.y );
+            if( this.ctaFlicker > 40 ) this.ctaFlicker = 0;
+        }
+    },
+
+    update: function(dt) {
+        me.game.repaint();
+    }
+
 });
 
 var GameOverScreen = me.ScreenObject.extend({
@@ -103,3 +124,72 @@ var TitleScreen = me.ScreenObject.extend({
 var LevelChanger = me.ObjectEntity.extend({
 
 });
+
+var Baddie = me.ObjectEntity.extend({
+    init: function(x, y, settings) {
+        settings = settings || {}
+        settings.image = settings.image || 'robut';
+        settings.spritewidth = settings.spritewidth || 141;
+        settings.spriteheight = settings.spriteheight || 139;
+        
+        this.type = settings.type;
+        this.skel = settings.skel;
+        if( settings.skel ) {
+            settings.image = settings.image + '_skel';
+        }
+        
+        this.parent( x, y, settings );
+        this.alwaysUpdate = false;
+        this.baddie = true;
+        this.setVelocity( 3, 15 );
+        this.setFriction( 0.4, 0 );
+        this.direction = 1;
+        this.collidable = true;
+        this.overworld = settings.overworld ? true : false;
+
+        // Hack...
+        me.state.current().baddies.push(this);
+
+        this.renderable.animationspeed = 70;
+    },
+        checkBulletCollision: function(){
+        me.game.world.collide(this, true).forEach(function(col) {
+            if(col && col.obj.bullet && !this.overworld ) {
+                col.obj.die();
+                me.state.current().baddies.remove(this);
+                me.game.viewport.shake(2, 250);
+                //TODO: spawn death particle?
+                this.collidable = false;
+                me.game.world.removeChild(this);
+
+                var p = new Pickup(this.pos.x, this.pos.y-150, {});
+                me.game.world.addChild(p);
+
+                // #ProHacks
+                var b = new window[this.type](this.pos.x, this.pos.y, {
+                    skel: 1,
+                    x: this.pos.x,
+                    y: this.pos.y,
+                    overworld:1,
+                    width: 80, // TODO This controls patrol???
+                    height: 80
+                });
+                b.z = 300;
+                me.game.world.addChild(b);
+                me.game.world.sort();
+
+                me.audio.play( "enemydeath" + Math.round(1+Math.random()*3) );
+
+                me.state.current().updateLayerVisibility(me.state.current().overworld);
+            }
+        }, this);
+    },
+    update: function(dt) {
+        this.parent(dt);
+        this.updateMovement();
+        this.checkBulletCollision();
+        return true;
+    }
+        });
+   
+

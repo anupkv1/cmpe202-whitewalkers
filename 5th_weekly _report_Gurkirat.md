@@ -42,3 +42,17 @@ Extending the topics of 3rd week, following topics are studied:
    
 XP value: Simplicity
 While learning to work on Tiled, I started with developing simplest designs from tutorials, just following their instructions. Subsequently with little bit practice, little complexity was added to designs to make the interface better looking and more functional for our hero in the game.
+
+
+5th week (Oct 22 to Oct 28)
+
+Starting with the code work, working on different levels that the player will go through during the game progression. Beginning from level 1, player will reach higher levels by crossing the obstacles and enemies. 
+Also working on the contents that will be displayed on the home screen of our game. So far, we have decided to keep following attributes on the title screen:
+a) Title of the game
+b) Start button
+c) players with high scores
+d) Facility for players ton enter their username.
+
+Scrum value: Openness
+Due to my broken hand, I was giving all missed assignments today. Therefore,it was tough for me to study for both project and assignments. However, my team members had faith in me and I was able to do both tasks appropriately. 
+ 
