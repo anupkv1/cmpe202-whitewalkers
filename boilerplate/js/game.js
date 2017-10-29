@@ -152,6 +152,44 @@ var Baddie = me.ObjectEntity.extend({
 
         this.renderable.animationspeed = 70;
     },
+        checkBulletCollision: function(){
+        me.game.world.collide(this, true).forEach(function(col) {
+            if(col && col.obj.bullet && !this.overworld ) {
+                col.obj.die();
+                me.state.current().baddies.remove(this);
+                me.game.viewport.shake(2, 250);
+                //TODO: spawn death particle?
+                this.collidable = false;
+                me.game.world.removeChild(this);
+
+                var p = new Pickup(this.pos.x, this.pos.y-150, {});
+                me.game.world.addChild(p);
+
+                // #ProHacks
+                var b = new window[this.type](this.pos.x, this.pos.y, {
+                    skel: 1,
+                    x: this.pos.x,
+                    y: this.pos.y,
+                    overworld:1,
+                    width: 80, // TODO This controls patrol???
+                    height: 80
+                });
+                b.z = 300;
+                me.game.world.addChild(b);
+                me.game.world.sort();
+
+                me.audio.play( "enemydeath" + Math.round(1+Math.random()*3) );
+
+                me.state.current().updateLayerVisibility(me.state.current().overworld);
+            }
+        }, this);
+    },
+    update: function(dt) {
+        this.parent(dt);
+        this.updateMovement();
+        this.checkBulletCollision();
+        return true;
+    }
         });
    
 
