@@ -22,3 +22,19 @@ Analyzing the code from various repos of Github for understanding game developme
 XP Value : Simplicity Being new to the JS, i started with implementing the very basic code of Objects,
 Constructor functions and Prototypal Inheritance. Getting a strong grasp on these basics concepts i took these 
 concepts to implement various design patterns in JS.
+
+
+
+Week 3 (1st oct to 7th oct) :
+
+Analyzed different design patterns
+Compared the best possible scenarios for Factory, Abstract Factory, Singleton and Builder.
+Studied and practices Creation complex structures using Builder pattern.
+Hands on to MelonJS
+XP Value : Courage JS being not so modular unlike other OOP languages have many major challenges in implementing the complex design patterns. The earlier version of code were not very modular as being discussed, this code was no close to good industry standards so decided not to check-in that code and provide some better optimized solution in coming weeks.
+
+Week 4 (15th oct to 21st oct) :
+
+Analyzed the diff MelonJS codes Analyzed different design pattern that could be incorporated for our Game.
+
+XP Value : Simplicity Started with implementing the various design pattern in pure object oriented paradigm. Moved on to next level by incorporating the same in the JS that is not pure Object Oriented Language. Achieved the same goals through prototypal chain, that one gets through inheritance
