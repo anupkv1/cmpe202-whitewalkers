@@ -1,3 +1,7 @@
+Week-5 (23-Oct to 28-Oct)
+
+Understanding MelonJS code for Player and understanding the implemntation of design pattern.
+
 Week-4 (16-Oct to 22-Oct)
 
 Singleton and Decorator Pattern 
