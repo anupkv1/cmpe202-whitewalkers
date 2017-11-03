@@ -320,6 +320,106 @@ var Player = me.ObjectEntity.extend({
 
         }
     },
+    
+    update: function(dt) {
+        var self = this;
+        this.parent(dt);
+
+        if(this.shootDelay >0){
+            this.shootDelay-=dt;
+        }
+
+        if(this.deathTimer > 0){
+            this.deathTimer-=dt;
+            if( ! this.renderable.isCurrentAnimation("die") ){
+                this.renderable.setCurrentAnimation("die");
+            }
+            this.updateMovement();
+            if(this.deathTimer<=0){
+                me.state.change( me.state.GAMEOVER);
+            }
+            return true;
+        }
+
+        this.followPos.x = this.pos.x + this.centerOffsetX;
+        this.followPos.y = this.pos.y + this.centerOffsetY;
+
+        if(this.disableInputTimer > 0){
+            this.disableInputTimer-=dt;
+            this.gravity = 0;
+            this.vel.x = 0;
+            this.vel.y = 0;
+            this.updateMovement();
+            return true;
+        }else{
+            this.gravity = 1;
+        }
+
+
+
+        if(this.collisionTimer > 0){
+            this.collisionTimer-=dt;
+        }
+
+        if(this.hitTimer > 0){
+            this.hitTimer-=dt;
+            this.vel.x = this.hitVelX;
+            this.updateMovement();
+            return true;
+        }
+
+        // TODO acceleration
+        if (me.input.isKeyPressed('left'))  {
+            this.vel.x = -25.5;
+            this.flipX(true);
+            this.direction = -1;
+            if( ! this.renderable.isCurrentAnimation("walk" + this.animationSuffix) ){
+                this.renderable.setCurrentAnimation("walk" + this.animationSuffix, function() {
+                    self.renderable.setCurrentAnimation("idle" + self.animationSuffix);
+                })
+            }
+        } else if (me.input.isKeyPressed('right')) {
+            this.vel.x = 25.5;
+            this.flipX(false);
+            this.direction = 1;
+            if( ! this.renderable.isCurrentAnimation("walk" + this.animationSuffix) ){
+                this.renderable.setCurrentAnimation("walk" + this.animationSuffix, function() {
+                    self.renderable.setCurrentAnimation("idle" + self.animationSuffix);
+                })
+            }
+        }
+
+        if(this.falling && this.vel.y > 0){
+            if( ! this.renderable.isCurrentAnimation("shoot_jump" + this.animationSuffix) ){
+                this.renderable.setCurrentAnimation("fall" + this.animationSuffix);
+            }
+        }
+
+        if(!this.falling && !this.jumping && this.vel.y == 0){
+           // console.log("doblejump reset");
+            this.doubleJumped = false;
+            if(!me.input.isKeyPressed('right') && !me.input.isKeyPressed('left') && ! this.renderable.isCurrentAnimation("idle" + this.animationSuffix)&& ! this.renderable.isCurrentAnimation("shoot" + this.animationSuffix)){
+                this.renderable.setCurrentAnimation("idle" + this.animationSuffix);
+            }
+        }
+
+        if( me.input.isKeyPressed('up')) {
+            if(!this.jumping && !this.falling){
+                this.vel.y = -40;
+                this.jumping = true;
+                self.renderable.setCurrentAnimation("jump" + this.animationSuffix);
+                me.audio.play( "jump", false, null, 0.6 );
+            }
+            else if((this.jumping || this.falling) && !this.doubleJumped){
+                this.doubleJumped = true;
+                this.vel.y = -40;
+                self.renderable.setCurrentAnimation("double_jump" + this.animationSuffix);
+                me.audio.play( "doublejump", false, null, 0.6 );
+            }
+        }
+
+        return true;
+    }
 })
 
    
