@@ -53,7 +53,7 @@ var game = {
     };
 };
 
-game.data = {souls:1, collectedSouls:0, collectedSoulsMax:15, beatGame:false};
+game.data = {souls:1, collectedSouls:0, collectedSoulsMax:15, beatGame:false, score: 0, maxShoots: 10, shoots: 0};
 
 game.HUD = game.HUD || {};
 
@@ -86,6 +86,62 @@ game.HUD.Container = me.ObjectContainer.extend({
 });
 
 Game.HUD.SoulDisplay = me.Renderable.extend( {
+
+    //Using the pre-existing code might be some value need modification later
+    init: function(x, y) {
+
+        // call the parent constructor
+        // (size does not matter here)
+        this.parent(new me.Vector2d(x, y), 10, 10);
+
+        // create a font
+        this.font = new me.BitmapFont("32x32_font", 32);
+        //this.font.set("right");
+
+        this.pickupTimer = 0;
+        this.pickup1 = me.loader.getImage("ui_pickup");
+        this.pickup2 = me.loader.getImage("ui_pickup2");
+        this.gaugebg = me.loader.getImage("summon_gauge_bg");
+        this.gauge  = me.loader.getImage("summon_gauge_fill");
+
+        this.findGate = me.loader.getImage("find_gate");
+        this.harvestSouls = me.loader.getImage("harvest_souls");
+
+        this.showFindGate = false;
+        this.showHarvestSouls = false;
+
+        this.findGatePos = {x:-500, y:300};
+        this.harvestSoulsPos = {x:1000, y:300};
+
+        // local copy of the global score
+        this.souls = -1;
+
+        this.gaugePos = {x:860, y:0};
+        this.gaugeHeight = 147;
+        this.gaugeRenderHeight = {val:0};
+        this.gaugeOffset = 0;
+        this.render = false;
+
+        // make sure we use screen coordinates
+        this.floating = true;
+    },
+    
+    //adding score and max shoots display count 
+    draw : function (context) {
+        if(!this.render)return;
+		
+		this.score = game.data.score;
+		this.shoots = game.data.maxShoots;
+
+		context.drawImage( this.pickup2, this.pos.x, this.pos.y );
+        this.font.draw (context, this.souls, this.pos.x + 50, this.pos.y + 30);
+        
+        context.drawImage( this.pickup2, this.pos.x + 200, this.pos.y ); //Will be replacing with different image later 
+        this.font.draw (context, this.score, this.pos.x + 250, this.pos.y + 30);
+        
+        context.drawImage( this.pickup2, this.pos.x + 400, this.pos.y ); //Will be replacing with different image later
+        this.font.draw (context, this.maxShoots, this.pos.x + 450, this.pos.y + 30);
+    }
 
 });
 
@@ -321,105 +377,7 @@ var Player = me.ObjectEntity.extend({
         }
     },
     
-    update: function(dt) {
-        var self = this;
-        this.parent(dt);
 
-        if(this.shootDelay >0){
-            this.shootDelay-=dt;
-        }
-
-        if(this.deathTimer > 0){
-            this.deathTimer-=dt;
-            if( ! this.renderable.isCurrentAnimation("die") ){
-                this.renderable.setCurrentAnimation("die");
-            }
-            this.updateMovement();
-            if(this.deathTimer<=0){
-                me.state.change( me.state.GAMEOVER);
-            }
-            return true;
-        }
-
-        this.followPos.x = this.pos.x + this.centerOffsetX;
-        this.followPos.y = this.pos.y + this.centerOffsetY;
-
-        if(this.disableInputTimer > 0){
-            this.disableInputTimer-=dt;
-            this.gravity = 0;
-            this.vel.x = 0;
-            this.vel.y = 0;
-            this.updateMovement();
-            return true;
-        }else{
-            this.gravity = 1;
-        }
-
-
-
-        if(this.collisionTimer > 0){
-            this.collisionTimer-=dt;
-        }
-
-        if(this.hitTimer > 0){
-            this.hitTimer-=dt;
-            this.vel.x = this.hitVelX;
-            this.updateMovement();
-            return true;
-        }
-
-        // TODO acceleration
-        if (me.input.isKeyPressed('left'))  {
-            this.vel.x = -25.5;
-            this.flipX(true);
-            this.direction = -1;
-            if( ! this.renderable.isCurrentAnimation("walk" + this.animationSuffix) ){
-                this.renderable.setCurrentAnimation("walk" + this.animationSuffix, function() {
-                    self.renderable.setCurrentAnimation("idle" + self.animationSuffix);
-                })
-            }
-        } else if (me.input.isKeyPressed('right')) {
-            this.vel.x = 25.5;
-            this.flipX(false);
-            this.direction = 1;
-            if( ! this.renderable.isCurrentAnimation("walk" + this.animationSuffix) ){
-                this.renderable.setCurrentAnimation("walk" + this.animationSuffix, function() {
-                    self.renderable.setCurrentAnimation("idle" + self.animationSuffix);
-                })
-            }
-        }
-
-        if(this.falling && this.vel.y > 0){
-            if( ! this.renderable.isCurrentAnimation("shoot_jump" + this.animationSuffix) ){
-                this.renderable.setCurrentAnimation("fall" + this.animationSuffix);
-            }
-        }
-
-        if(!this.falling && !this.jumping && this.vel.y == 0){
-           // console.log("doblejump reset");
-            this.doubleJumped = false;
-            if(!me.input.isKeyPressed('right') && !me.input.isKeyPressed('left') && ! this.renderable.isCurrentAnimation("idle" + this.animationSuffix)&& ! this.renderable.isCurrentAnimation("shoot" + this.animationSuffix)){
-                this.renderable.setCurrentAnimation("idle" + this.animationSuffix);
-            }
-        }
-
-        if( me.input.isKeyPressed('up')) {
-            if(!this.jumping && !this.falling){
-                this.vel.y = -40;
-                this.jumping = true;
-                self.renderable.setCurrentAnimation("jump" + this.animationSuffix);
-                me.audio.play( "jump", false, null, 0.6 );
-            }
-            else if((this.jumping || this.falling) && !this.doubleJumped){
-                this.doubleJumped = true;
-                this.vel.y = -40;
-                self.renderable.setCurrentAnimation("double_jump" + this.animationSuffix);
-                me.audio.play( "doublejump", false, null, 0.6 );
-            }
-        }
-
-        return true;
-    }
 })
 
    
