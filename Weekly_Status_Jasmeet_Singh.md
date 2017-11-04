@@ -1,4 +1,4 @@
-Week-6 (23-Oct to 28-Oct)
+Week-6 (29-Oct to 4-Nov)
 
 Tried to implement place holder for score and maxshoots.
 Understanding code flow of the pre-existing game and where changes are required to implement Observer pattern 
