@@ -1,3 +1,8 @@
+Week-6 (23-Oct to 28-Oct)
+
+Tried to implement place holder for score and maxshoots.
+Understanding code flow of the pre-existing game and where changes are required to implement Observer pattern 
+
 Week-5 (23-Oct to 28-Oct)
 
 Understanding MelonJS code for Player and understanding the implemntation of design pattern.
