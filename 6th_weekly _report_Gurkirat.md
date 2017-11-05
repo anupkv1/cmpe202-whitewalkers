@@ -56,3 +56,10 @@ d) Facility for players ton enter their username.
 Scrum value: Openness
 Due to my broken hand, I was giving all missed assignments today. Therefore,it was tough for me to study for both project and assignments. However, my team members had faith in me and I was able to do both tasks appropriately. 
  
+
+6th week (Oct 29 to Nov 4)
+
+Trying to implement the design patterns in code, especially the iterator pattern. In addition to that, working on the enhancement in difficulty of the game as the hero proceeds in the game. It will be easy to play in the beginning. But it will keep on getting tough as the player goes on. For example, we can increase the movement speed of hero, or the density of enemies will keep on increasing.
+
+Scrum value: Courage
+In the early plannings, we were thinking about having different difficulty levels right from the beginning. But as the discussions proceeded, we decided to change our strategy by opting just one play style and adding the new difficulty after each certain part of game is played.
