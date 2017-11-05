@@ -82,3 +82,37 @@ game.PlayerEntity = me.Entity.extend({
         return true;
     }
 });
+
+
+// Checking if an entity has collided with a bullet
+bulletCollisionDetection: function() {
+        console.log("***BULLET HIT***");
+        me.game.world.collide(this, true).forEach(function(col) {
+            if (col && col.obj.bullet && !this.overworld) { // Bullets are only available in underworld
+                col.obj.die(); // Kill the collided object
+                me.state.current().enemies.remove(this); // Remove this entity from the enemies list
+                me.game.viewport.shake(2, 250); 
+                
+                this.collidable = false; // set the entity to be uncollidable
+                me.game.world.removeChild(this); // remove from the game world
+
+                var p = new Soul(this.pos.x, this.pos.y - 150, {}); // create a soul object
+                me.game.world.addChild(p); // add to the world
+
+                // #ProHacks
+                var b = new window[this.type](this.pos.x, this.pos.y, {
+                    skel: 1,
+                    x: this.pos.x,
+                    y: this.pos.y,
+                    overworld: 1, // set the world to overworld for current entity
+                    width: 80, 
+                    height: 80
+                });
+                b.z = 300; update Z coordinate
+                me.game.world.addChild(b);
+                me.game.world.sort();
+
+                me.state.current().updateLayerVisibility(me.state.current().overworld); // change the current layer state
+            }
+        }, this);
+    }
