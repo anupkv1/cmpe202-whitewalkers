@@ -116,3 +116,28 @@ bulletCollisionDetection: function() {
             }
         }, this);
     }
+
+var Bullet = me.ObjectEntity.extend({ // Base bullet object for all shooting purposes
+    init: function(x, y, settings) {
+        settings = settings || {};
+        settings.image = settings.image || "zap";
+        // setting image width an height
+        settings.spritewidth = 111; 
+        settings.spriteheight = 42;
+        settings.width = 111;
+        settings.height = 42;
+        direction = settings.direction;
+        this.parent(x, y, settings);
+        this.bullet = true;
+        this.alwaysUpdate = true;
+        this.collidable = true;
+        this.z = 300;
+        this.gravity = 0;
+        this.vel.x = direction * 15.0;
+        this.flipX(direction < 0);
+        // Set speed of animating bullet
+        this.renderable.animationspeed = 10;
+        // bullet should disappear after travel this distance
+        this.lifetime = 1200;
+    }
+    // **** Bullet.onCollision, onUpdate, onDie ****
