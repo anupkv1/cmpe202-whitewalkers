@@ -178,35 +178,46 @@ var TitleScreen = me.ScreenObject.extend({
 });
 
 var LevelChanger = me.ObjectEntity.extend({
+    init: function(x, y, settings) {
+        settings.image = "gateway";
+        settings.spritewidth = 140;
+        settings.spriteheight = 190;
+        this.levels = settings.toLevel;
+        this.parent( x, y, settings );
+        this.gravity = 0;
+        this.collidable = true;
+    }
 
 });
 
-var Baddie = me.ObjectEntity.extend({
+var enemySuper = me.ObjectEntity.extend({
     init: function(x, y, settings) {
         settings = settings || {}
+
+        settings.spriteheight = settings.spriteheight || 135;
+        settings.spritewidth = settings.spritewidth || 144;
         settings.image = settings.image || 'robut';
-        settings.spritewidth = settings.spritewidth || 141;
-        settings.spriteheight = settings.spriteheight || 139;
-        
+
+        this.skeleton = settings.skeleton;
+
+
         this.type = settings.type;
-        this.skel = settings.skel;
-        if( settings.skel ) {
+        if( settings.skeleton ) {
             settings.image = settings.image + '_skel';
         }
-        
+
         this.parent( x, y, settings );
-        this.alwaysUpdate = false;
-        this.baddie = true;
+        this.Update = false;
+        this.enemySuper = true;
         this.setVelocity( 3, 15 );
         this.setFriction( 0.4, 0 );
         this.direction = 1;
         this.collidable = true;
         this.overworld = settings.overworld ? true : false;
 
-        // Hack...
         me.state.current().baddies.push(this);
 
-        this.renderable.animationspeed = 70;
+        this.renderable.animationspeed = 90;
     },
         checkBulletCollision: function(){
         me.game.world.collide(this, true).forEach(function(col) {
