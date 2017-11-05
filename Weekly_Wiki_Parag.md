@@ -1,3 +1,10 @@
+Week 6 (29 Oct to 4 Nov) : Indentifying and applying state pattern on bullet collision with enemy entities.
+XP Value : Communication : Encouraged deeper communication in the team as the project development continues addressing increasingly complex issues. 
+
+Week 5 (22 Oct to 28 Oct) : 
+Configuring collision setting on different type of entities in the world.
+XP Value: See the whole : Ensured that team is keeping the end goal in mind while diving into some of the specific programming challenges faced so far. This helped in keeping the efficiency high within the team.
+
 Week 4 (14 Oct to 21 Oct):
 Applying design patterns between objects in the game and testing which patterns works the best. Using chain of responsibily and Composite design patterns.
 XP Value : I ensured that the team has a simplistic view of the requirements while not having to introduce unnecessary complexity. I achieved this by helping to design simple task for each team members , keeping the focus on what is important and leaving out the rest.
@@ -6,10 +13,7 @@ Week 3 (1 Oct to 7 Oct):
 Adding bullets functionality to player object.
 Defining collision relationship between enemy and bullets.
 Presenting last weeks work to the team.
-
-XP Value : See the Whole
-
-In this week I made sure the team has made overall developement, we finalised the game today we discussed all the game features also divided the task to be completed for next week
+XP Value : See the Whole : In this week I made sure the team has made overall developement, we finalised the game today we discussed all the game features also divided the task to be completed for next week
 
 Week 2 (24 sept to 30 sept) :
 Functional Requirements analysis 2:

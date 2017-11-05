@@ -82,3 +82,62 @@ game.PlayerEntity = me.Entity.extend({
         return true;
     }
 });
+
+
+// Checking if an entity has collided with a bullet
+bulletCollisionDetection: function() {
+        console.log("***BULLET HIT***");
+        me.game.world.collide(this, true).forEach(function(col) {
+            if (col && col.obj.bullet && !this.overworld) { // Bullets are only available in underworld
+                col.obj.die(); // Kill the collided object
+                me.state.current().enemies.remove(this); // Remove this entity from the enemies list
+                me.game.viewport.shake(2, 250); 
+                
+                this.collidable = false; // set the entity to be uncollidable
+                me.game.world.removeChild(this); // remove from the game world
+
+                var p = new Soul(this.pos.x, this.pos.y - 150, {}); // create a soul object
+                me.game.world.addChild(p); // add to the world
+
+                // #ProHacks
+                var b = new window[this.type](this.pos.x, this.pos.y, {
+                    skel: 1,
+                    x: this.pos.x,
+                    y: this.pos.y,
+                    overworld: 1, // set the world to overworld for current entity
+                    width: 80, 
+                    height: 80
+                });
+                b.z = 300; update Z coordinate
+                me.game.world.addChild(b);
+                me.game.world.sort();
+
+                me.state.current().updateLayerVisibility(me.state.current().overworld); // change the current layer state
+            }
+        }, this);
+    }
+
+var Bullet = me.ObjectEntity.extend({ // Base bullet object for all shooting purposes
+    init: function(x, y, settings) {
+        settings = settings || {};
+        settings.image = settings.image || "zap";
+        // setting image width an height
+        settings.spritewidth = 111; 
+        settings.spriteheight = 42;
+        settings.width = 111;
+        settings.height = 42;
+        direction = settings.direction;
+        this.parent(x, y, settings);
+        this.bullet = true;
+        this.alwaysUpdate = true;
+        this.collidable = true;
+        this.z = 300;
+        this.gravity = 0;
+        this.vel.x = direction * 15.0;
+        this.flipX(direction < 0);
+        // Set speed of animating bullet
+        this.renderable.animationspeed = 10;
+        // bullet should disappear after travel this distance
+        this.lifetime = 1200;
+    }
+    // **** Bullet.onCollision, onUpdate, onDie ****
