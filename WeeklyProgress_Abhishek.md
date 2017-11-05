@@ -42,5 +42,14 @@ XP Value : Simplicity Started with implementing the various design pattern in pu
 
 
 Week 5 (22nd October to 28th October):
+Analysed the key binding functionalties of movement.
 Scrum Value : Focus 
 There was a well defined target i had for this iteration's target. One major task was on how to manipulate the players based on some keyevents. Focused on this goal and was able to maps some keys to the actual features. Will work with same focus for teh coming interations
+
+
+
+Week 6 (29th October to 4th November):
+Analysed the key binding functionalties of movement and enemy initialization.
+Analysing the Incorporation of Command Pattern
+Scrum Value : Focus 
+Focus on the design features by implementing a design pattern 
