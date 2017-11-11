@@ -11,6 +11,7 @@ var game = {
 
     // Run on page load.
     "onload" : function () {
+        console.log("****game.js*** fn: onload***");
         // Initialize the video.
         if (!me.video.init(640, 480, {wrapper : "screen", scale : "auto", scaleMethod : "flex-width"})) {
             alert("Your browser does not support HTML5 canvas.");
@@ -23,25 +24,31 @@ var game = {
         // set and load all resources.
         // (this will also automatically switch to the loading screen)
         me.loader.preload(game.resources, this.loaded.bind(this));
+
+        //Initiate melonjs and display a loading screen
+        me.state.change(me.state.LOADING);
     },
 
     // Run on game resources loaded.
-    /**
- * callback when everything is loaded
- */
-loaded : function () {
-  // set the "Play/Ingame" Screen Object
-  me.state.set(me.state.PLAY, new game.PlayScreen());
+    "loaded" : function () {
+        console.log("***game.js*** fn: loaded***");
+        me.state.set(me.state.MENU, new game.TitleScreen());
+        me.state.set(me.state.PLAY, new game.PlayScreen());
 
-  // register our player entity in the object pool
-  me.pool.register("mainPlayer", game.PlayerEntity);
+        // add our player entity in the entity pool
+        me.pool.register("mainPlayer", game.PlayerEntity);
+        me.pool.register("CoinEntity",  game.CoinEntity); // add coin entity to entity pool
+        me.pool.register("EnemyEntity", game.EnemyEntity);// add enemy entity to entity pool
 
-  // enable the keyboard
-  me.input.bindKey(me.input.KEY.LEFT,  "left");
-  me.input.bindKey(me.input.KEY.RIGHT, "right");
-  me.input.bindKey(me.input.KEY.SPACE,  "jump", true);
+        // enable the keyboard
+        me.input.bindKey(me.input.KEY.LEFT,  "left");
+        me.input.bindKey(me.input.KEY.RIGHT, "right");
+        me.input.bindKey(me.input.KEY.SPACE,  "jump", true);
 
-  // start the game
-  me.state.change(me.state.PLAY);
-}
+        // Start the game.
+        me.state.change(me.state.PLAY);
+    }
 };
+
+
+
