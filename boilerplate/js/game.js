@@ -53,7 +53,7 @@ var game = {
     };
 };
 
-game.data = {souls:1, collectedSouls:0, collectedSoulsMax:15, beatGame:false, score: 0, maxShoots: 10, shoots: 0};
+game.data = {souls:1, collectedSouls:0, collectedSoulsMax:15, beatGame:false, score: 0, maxShots: 10, shots: 0};
 
 game.HUD = game.HUD || {};
 

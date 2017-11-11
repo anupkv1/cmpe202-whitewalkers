@@ -41,6 +41,7 @@ game.HUD.ScoreItem = me.Renderable.extend({
 
         // local copy of the global score
         this.score = -1;
+        this.pickup = me.loader.getImage("ui_pickup");
     },
 
     /**
@@ -61,6 +62,15 @@ game.HUD.ScoreItem = me.Renderable.extend({
      */
     draw : function (context) {
         // draw it baby !
+        console.log("***game.js*** fn: draw***");
+        if(!this.render)return;
+		
+		this.score = game.data.score;
+		this.shoots = game.data.maxShoots;
+
+		context.drawImage(this.pickup, this.pos.x, this.pos.y );
+        this.font.draw (context, this.score, this.pos.x + 50, this.pos.y + 30);
+        
     }
 
-});
+}); 
