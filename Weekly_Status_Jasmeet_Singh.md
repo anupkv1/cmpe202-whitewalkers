@@ -1,3 +1,8 @@
+Week-7 (4-Nov to 11-Nov)
+
+Tried to implement HUD.
+ 
+
 Week-6 (29-Oct to 4-Nov)
 
 Tried to implement place holder for score and maxshoots.
