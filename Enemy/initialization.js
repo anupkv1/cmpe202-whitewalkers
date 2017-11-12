@@ -29,3 +29,43 @@ Enemy = me.Entity.extend({
 			this.body.gravity = 0;
 
 }
+	
+(function() {
+	current.EnemyBoomer = current.Enemy.extend({
+		init: function(x, y, initializeSet) {
+			initializeSet = initializeSet || {};
+			initializeSet.image = 'enemy2';
+			initializeSet.shapes = [ new me.Rect( 0, 0, 16, 18) ];
+			initializeSet.speed = current.Constant.speed.slow;
+			initializeSet.hp = 3;
+
+			this.bullet = {
+				type: 'BulletShooter',
+				speed: current.Constant.speed.slow,
+			};
+			this.bulletCount = 10;
+
+			this._super(current.Enemy, 'init', [x, y, initializeSet]);
+		},
+
+		chooseDirection: function() {
+			// Always move in the direction of the player.
+			return new me.Vector2d(this.speed, 0).rotate(this.angleToPlayer());
+		},
+
+		die: function() {
+			for (var i = 0; i < this.bulletCount; i++) {
+				var angle = i * (Math.PI * 2) / this.bulletCount;
+
+				this.shoot({
+					angle: angle,
+				});
+			}
+			this._super(current.Enemy, 'die', []);
+		},
+
+		getDeathSound: function() {
+			return "enemy2death";
+		}
+	});
+})();
