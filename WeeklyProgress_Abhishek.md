@@ -53,3 +53,11 @@ Analysed the key binding functionalties of movement and enemy initialization.
 Analysing the Incorporation of Command Pattern
 Scrum Value : Focus 
 Focus on the design features by implementing a design pattern 
+
+
+Week 4 (4th November to 11th November):
+Initialization of Enemy Object Params
+Command Design Pattern
+Enemy key binding analysis
+Scrum Value : Commitment 
+With the predefined targets for this sprint, we were able to commit towards the goals in to do list .
