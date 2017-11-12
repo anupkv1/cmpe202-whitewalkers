@@ -1,6 +1,7 @@
 Week 7 (5 Nov to 12 Nov) : Implementing and designing game play screen and adding coins and enemy entitiy.
 XP Value : Simplicity
-I ensured that the team has a simplistic view of the requirements while not having to introduce unnecessary complexity. I achieved this by helping to design simple task for each team members , keeping the focus on what is important and leaving out the rest
+I ensured that the team has a simplistic view of the requirements while not having to introduce unnecessary complexity. I achieved this by helping to design simple task for each team members , keeping the focus on what is important and leaving out the rest.
+
 Week 6 (29 Oct to 4 Nov) : Indentifying and applying state pattern on bullet collision with enemy entities.
 XP Value : Communication : Encouraged deeper communication in the team as the project development continues addressing increasingly complex issues. 
 
