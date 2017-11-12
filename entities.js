@@ -284,3 +284,25 @@ var PlayScreen = me.ScreenObject.extend({
     }
 });
 
+var TitleScreen = me.ScreenObject.extend({
+    onResetEvent: function() {
+        this.radmars = new RadmarsRenderable();
+        me.game.world.addChild(this.radmars);
+
+        this.subscription = me.event.subscribe(me.event.KEYDOWN, function(action, keyCode, edge) {
+            if (keyCode === me.input.KEY.ENTER) {
+                me.state.change(me.state.MENU);
+            }
+        });
+
+        me.audio.playTrack("radmarslogo");
+    },
+
+    onDestroyEvent: function() {
+        me.input.unbindKey(me.input.KEY.ENTER);
+        me.audio.stopTrack();
+        me.game.world.removeChild(this.radmars);
+        me.event.unsubscribe(this.subscription);
+    }
+});
+
