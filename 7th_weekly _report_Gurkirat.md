@@ -63,3 +63,13 @@ Trying to implement the design patterns in code, especially the iterator pattern
 
 Scrum value: Courage
 In the early plannings, we were thinking about having different difficulty levels right from the beginning. But as the discussions proceeded, we decided to change our strategy by opting just one play style and adding the new difficulty after each certain part of game is played.
+
+
+7th week (Nov 5 to Nov 11)
+
+Following work done this week:
+1. Worked on scoring system.
+2. Procedure for hero's death. For eg: how many hits it takes to kill our hero.
+
+Scrum value: Focus
+Working on scoring system is one of the most complex part. And thats why, we cooperated and concentrated this week to sort out our scoring system
