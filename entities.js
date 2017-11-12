@@ -141,3 +141,146 @@ var Bullet = me.ObjectEntity.extend({ // Base bullet object for all shooting pur
         this.lifetime = 1200;
     }
     // **** Bullet.onCollision, onUpdate, onDie ****
+    
+    /** The game play state... */
+var PlayScreen = me.ScreenObject.extend({
+    init: function() {
+        this.parent(true);
+        me.input.bindKey(me.input.KEY.SPACE, "shoot");
+        this.baddies = [];
+        this.pickups = [];
+        this.overworld = true;
+        this.subscription = me.event.subscribe(me.event.KEYDOWN, this.keyDown.bind(this));
+
+        this.HUD = new LD30.HUD.Container();
+        me.game.world.addChild(this.HUD);
+        LD30.data.beatGame = false;
+
+    },
+
+    toUnderworld: function() {
+        if (this.overworld) {
+            me.audio.mute("ld30-real");
+            me.audio.unmute("ld30-spirit");
+
+            me.audio.play("portal");
+            me.audio.play("lostsouls");
+
+            this.overworld = false;
+            this.updateLayerVisibility(this.overworld);
+            this.HUD.toUnderworld();
+            me.game.viewport.shake(5, 1000);
+        }
+    },
+
+    endGame: function() {
+        LD30.data.beatGame = true;
+        me.state.change(me.state.GAMEOVER);
+    },
+
+    goToLevel: function(level) {
+        if (!this.overworld) {
+            this.baddies = [];
+            this.pickups = [];
+            this.overworld = true;
+            me.levelDirector.loadLevel(level);
+            me.state.current().changeLevel(level);
+            this.HUD.startGame();
+        }
+    },
+
+    updateLayerVisibility: function(overworld) {
+        var level = me.game.currentLevel;
+        level.getLayers().forEach(function(layer) {
+            if (layer.name.match(/overworld/)) {
+                layer.alpha = overworld ? 1 : 0;
+            } else if (layer.name.match(/underworld/)) {
+                layer.alpha = overworld ? 0 : 1;
+            }
+        }, this);
+
+        this.baddies.forEach(function(baddie) {
+            var m = baddie.overworld && overworld || (!baddie.overworld && !overworld);
+            if (m) {
+                baddie.renderable.alpha = .5;
+                // baddie.collidable = false;
+            } else {
+                baddie.renderable.alpha = 1;
+                //baddie.collidable = true;
+            }
+        });
+
+        this.pickups.forEach(function(pickup) {
+            var m = pickup.overworld && overworld || (!pickup.overworld && !overworld);
+            if (m) {
+                pickup.renderable.alpha = .5;
+                //pickup.collidable = false;
+            } else {
+                pickup.renderable.alpha = 1;
+                //pickup.collidable = true;
+            }
+        });
+
+        me.game.repaint();
+    },
+
+    keyDown: function(action) {
+        if (action == "shoot") {
+            this.player.shoot();
+        }
+    },
+
+    getLevel: function() {
+        return this.parseLevel(me.levelDirector.getCurrentLevelId());
+    },
+
+    parseLevel: function(input) {
+        var re = /level(\d+)/;
+        var results = re.exec(input);
+        return results[1];
+    },
+
+    /** Update the level display & music. Called on all level changes. */
+    changeLevel: function(level) {
+        me.audio.mute("ld30-spirit");
+        me.audio.unmute("ld30-real");
+
+        // TODO: Makethis track the real variable...
+        this.updateLayerVisibility(this.overworld);
+        // this only gets called on start?
+        me.game.world.sort();
+
+        me.game.viewport.fadeOut('#000000', 1000, function() {});
+    },
+
+    // this will be called on state change -> this
+    onResetEvent: function() {
+        this.baddies = [];
+        this.pickups = [];
+        this.overworld = true;
+        LD30.data.beatGame = false;
+        LD30.data.collectedSouls = 0;
+        LD30.data.souls = 1;
+        var level = location.hash.substr(1) || "level1";
+        me.levelDirector.loadLevel(level);
+
+        me.audio.stopTrack();
+        me.audio.play("ld30-real", true);
+        me.audio.play("ld30-spirit", true);
+        me.audio.play("portalrev");
+
+        this.changeLevel(level);
+        this.HUD.startGame();
+    },
+
+    onDestroyEvent: function() {
+        this.HUD.endGame();
+        me.audio.stop("ld30-real");
+        me.audio.stop("ld30-spirit");
+    },
+
+    update: function() {
+        me.game.frameCounter++;
+    }
+});
+
