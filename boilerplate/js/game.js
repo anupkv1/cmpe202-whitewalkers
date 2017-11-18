@@ -175,6 +175,35 @@ var GameOverScreen = me.ScreenObject.extend({
 });
 
 var TitleScreen = me.ScreenObject.extend({
+    init: function() {
+        this.parent( true );
+    },
+
+    onResetEvent: function() {
+        this.bg = new me.ImageLayer( "title", screenWidth, screenHeight, "splash", 1 );
+
+        this.hitenter = new HitEnter( 350, 400 );
+
+        me.game.world.addChild( this.bg );
+        me.game.world.addChild( this.hitenter);
+
+        me.audio.stopTrack();
+        me.audio.playTrack( "ld30-title" );
+
+        this.subscription = me.event.subscribe( me.event.KEYDOWN, function (action, keyCode, edge) {
+            if( keyCode === me.input.KEY.ENTER ) {
+                me.state.change( me.state.PLAY );
+            }
+        });
+
+        goodEnd = false;
+    },
+
+    onDestroyEvent: function() {
+        me.game.world.removeChild( this.bg );
+        me.game.world.removeChild( this.hitenter );
+        me.event.unsubscribe( this.subscription );
+    }
 });
 
 var LevelChanger = me.ObjectEntity.extend({
