@@ -36,8 +36,8 @@ Enemy = me.Entity.extend({
         this.showHarvestSouls = false;
         this.showFindGate = true;
         this.findGatePos.x = -500;
-        new me.GameLL().start();
-        }).start();
+        new me.Game(self.findGatePos).to({x:100}, 500).easing(me.Game).delay(1000).onComplete(function(){
+            new me.Game(self.findGatePos).to({x:1000}, 1000).easing(m)}).start();
 
         var h = this.getGaugeHeight();
         this.gaugeRenderHeight.val = h;
