@@ -45,9 +45,7 @@
   </object>
   <object id="33" name="me.LevelEntity" x="575.743" y="254.837" width="32.0906" height="33.0345">
    <properties>
-    <property name="duration" type="int" value="250"/>
-    <property name="fade" type="color" value="#ffffaa7f"/>
-    <property name="to" value="area02"/>
+    <property name="to" type="file" value="area02.tmx"/>
    </properties>
   </object>
  </objectgroup>
