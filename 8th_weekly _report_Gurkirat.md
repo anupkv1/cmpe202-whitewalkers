@@ -73,3 +73,14 @@ Following work done this week:
 
 Scrum value: Focus
 Working on scoring system is one of the most complex part. And thats why, we cooperated and concentrated this week to sort out our scoring system
+
+
+8th week (Nov 12 to Nov 18)
+
+Following work done this week:
+1. Implementing chain of responsibility design pattern.
+2. Integrating scoring system complexities.
+
+Scrum value: Commitment
+Approaching last sprint and also the last month of semester, even though there is heap of workload, everybody is committed to complete all work in time.
+
