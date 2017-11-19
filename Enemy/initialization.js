@@ -30,7 +30,7 @@ Enemy = me.Entity.extend({
 
 }
 	
-	startGame: function(){
+	startGameEnemyState: function(){
         this.render = true;
         var self = this;
         this.showHarvestSouls = false;
