@@ -5,8 +5,7 @@ var game = {
     // an object where to store game information
     data : {
         // score
-//         score : 0
-       souls:1, collectedSouls:0, collectedSoulsMax:15, beatGame:false, score: 0, maxShots: 10, shots: 0
+        score : 0
     },
 
 
@@ -28,12 +27,11 @@ var game = {
 
         //Initiate melonjs and display a loading screen
         me.state.change(me.state.LOADING);
-        
     },
 
     // Run on game resources loaded.
     "loaded" : function () {
-        console.log("***game.js*** fn: loaded***");
+        console.log("***game.js*** fn: loaded***")
         me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
 
@@ -49,9 +47,8 @@ var game = {
 
         // Start the game.
         me.state.change(me.state.PLAY);
-    },
+    }
 };
-
 
 
 

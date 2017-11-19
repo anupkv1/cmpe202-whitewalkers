@@ -133,7 +133,7 @@ game.PlayerEntity = me.Entity.extend({
                     // let's flicker in case we touched an enemy
                     this.renderable.flicker(750);
                 }
-            // break;
+                // break;
 
             // Fall through
 
@@ -144,7 +144,7 @@ game.PlayerEntity = me.Entity.extend({
 
         // Make the object solid
         return true;
-    }
+        }
 });
 
 /** A coin entitty **/
@@ -165,6 +165,7 @@ game.CoinEntity = me.CollectableEntity.extend({
     onCollision : function (response, other) {
         // do something when collected
 
+        game.data.score +=250;
         // make sure it cannot be collected "again"
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);
 
@@ -182,7 +183,7 @@ game.EnemyEntity = me.Entity.extend({
     init: function (x, y, settings) {
         settings.image = "wheelie_right"; /*Definfing image instead of Tiled*/
 
-        //save the area size defined in tiled
+    //save the area size defined in tiled
         var width = settings.width;
         var height = settings.height;
 
@@ -212,7 +213,7 @@ game.EnemyEntity = me.Entity.extend({
         this.body.setVelocity(4,6);
 
 
-
+        
     },
 
     /**
@@ -228,7 +229,7 @@ game.EnemyEntity = me.Entity.extend({
                 this.walkLeft = true;
             }
 
-            //    make it walk
+        //    make it walk
             this.renderable.flipX(this.walkLeft);
             this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
         }
