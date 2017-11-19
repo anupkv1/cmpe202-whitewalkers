@@ -1,10 +1,11 @@
 /**
  * a HUD container and child items
+ * Heads Up Display AKA Status Bar
  */
 
 game.HUD = game.HUD || {};
 
-
+console.log("Inside HUD.js");
 game.HUD.Container = me.Container.extend({
 
     init: function() {
@@ -21,7 +22,7 @@ game.HUD.Container = me.Container.extend({
         this.name = "HUD";
 
         // add our child score object at the top left corner
-        this.addChild(new game.HUD.ScoreItem(5, 5));
+        this.addChild(new game.HUD.ScoreItem(-10, -10));
     }
 });
 
@@ -39,15 +40,21 @@ game.HUD.ScoreItem = me.Renderable.extend({
         // (size does not matter here)
         this._super(me.Renderable, 'init', [x, y, 10, 10]);
 
+        //create the font object
+        this.font = new me.BitmapFont(me.loader.getBinary('PressStart2P'),me.loader.getImage('PressStart2P'));
+
+        //font alignment to right bottom
+        this.font.textAlign = "right";
+        this.font.textBaseline = "bottom";
+
         // local copy of the global score
         this.score = -1;
-        this.pickup = me.loader.getImage("ui_pickup");
     },
 
     /**
      * update function
      */
-    update : function () {
+    update : function (dt) {
         // we don't do anything fancy here, so just
         // return true if the score has been updated
         if (this.score !== game.data.score) {
@@ -60,17 +67,8 @@ game.HUD.ScoreItem = me.Renderable.extend({
     /**
      * draw the score
      */
-    draw : function (context) {
+    draw : function (renderer) {
         // draw it baby !
-        console.log("***game.js*** fn: draw***");
-        if(!this.render)return;
-		
-		this.score = game.data.score;
-		this.shoots = game.data.maxShoots;
-
-		context.drawImage(this.pickup, this.pos.x, this.pos.y );
-        this.font.draw (context, this.score, this.pos.x + 50, this.pos.y + 30);
-        
-    }
-
-}); 
+        this.font.draw (renderer, game.data.score, me.game.viewport.width + this.pos.x, me.game.viewport.height+this.pos.y);
+        }
+    });
