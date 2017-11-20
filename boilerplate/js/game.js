@@ -171,7 +171,37 @@ var HitEnter = me.Renderable.extend({
 });
 
 var GameOverScreen = me.ScreenObject.extend({
+init: function() {
+        // disable HUD here?
+        this.parent( true );
+    },
 
+    onResetEvent: function()
+    {
+        var gotAllSouls = LD30.data.collectedSouls>=LD30.data.collectedSoulsMax;
+
+        //ending_good //ending_bad
+        this.gameover = new me.ImageLayer("gameover", screenWidth, screenHeight, LD30.data.beatGame ? (gotAllSouls?"ending_good":"ending_bad") : "lose", 0);
+
+        this.hitenter = new HitEnter( 350, LD30.data.beatGame ? 450 : 450 );
+        me.game.world.addChild( this.hitenter );
+
+        me.game.world.addChild( this.gameover );
+        me.audio.stopTrack();
+        me.audio.playTrack( "ld30-title" );
+
+        this.subscription = me.event.subscribe( me.event.KEYDOWN, function (action, keyCode, edge) {
+            if( keyCode === me.input.KEY.ENTER ) {
+                me.state.change( me.state.INTRO );
+            }
+        });
+    },
+
+    onDestroyEvent: function() {
+        me.audio.stopTrack();
+        me.game.world.removeChild( this.gameover );
+        me.event.unsubscribe( this.subscription );
+    }
 });
 
 var TitleScreen = me.ScreenObject.extend({

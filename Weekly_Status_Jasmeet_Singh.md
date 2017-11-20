@@ -1,3 +1,7 @@
+Week-8 (12-Nov to 18-Nov)
+
+Implemented score board for user life and coin collection. 
+ 
 Week-7 (4-Nov to 11-Nov)
 
 Tried to implement HUD.

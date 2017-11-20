@@ -1,3 +1,6 @@
+Week 8 (13 Nov to 18 Nov) : Update 2nd stage of game and heads up display for scores.
+XP Value : Simplicity: Started with implementing the various design pattern in pure object oriented paradigm. Moved on to next level by incorporating the same in the JS that is not pure Object Oriented Language. Achieved the same goals through prototypal chain, that one gets through inheritance. 
+
 Week 7 (5 Nov to 12 Nov) : Implementing and designing game play screen and adding coins and enemy entitiy.
 XP Value : Simplicity -
 I ensured that the team has a simplistic view of the requirements while not having to introduce unnecessary complexity. I achieved this by helping to design simple task for each team members , keeping the focus on what is important and leaving out the rest.

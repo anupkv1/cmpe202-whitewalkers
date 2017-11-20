@@ -61,3 +61,11 @@ Command Design Pattern
 Enemy key binding analysis
 Scrum Value : Commitment 
 With the predefined targets for this sprint, we were able to commit towards the goals in to do list .
+
+
+Week 5 (12th November to 19th November)
+Worked in the state of the enemy.
+Working on the integration with other team members
+Finalising some game events and key mapping of the game movements.
+Scrum Value : Focus 
+There was great deal of dedication and focus required in the integration process

@@ -28,6 +28,9 @@ game.PlayerEntity = me.Entity.extend({
 
         // set the standing animation as default
         this.renderable.setCurrentAnimation("stand");
+
+
+
     },
 
     /**
@@ -157,14 +160,20 @@ game.CoinEntity = me.CollectableEntity.extend({
         console.log("****Entity.js*** class:CoinEntity**** fn:init");
         // call the parent constructor
         this._super(me.CollectableEntity, 'init', [x, y , settings]);
-
+        var scoreHandler = function(scoreVal) { 
+            scoreboard.increaseScore(scoreVal); 
+        };
+ 
+        var scoreSubject = new ScoreSubject();
+ 
+        scoreSubject.subscribe(scoreHandler);
     },
 
     // this function is called by the engine, when
     // an object is touched by something (here collected)
     onCollision : function (response, other) {
         // do something when collected
-
+        //scoreSubject.updateScore(250);
         game.data.score +=250;
         // make sure it cannot be collected "again"
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);
@@ -264,3 +273,40 @@ game.EnemyEntity = me.Entity.extend({
         return true;
     }
 });
+
+function ScoreSubject() {
+    this.handlers = [];  // observers
+}
+ 
+ScoreSubject.prototype = {
+ 
+    subscribe: function(fn) {
+        this.handlers.push(fn);
+    },
+ 
+    unsubscribe: function(fn) {
+        this.handlers = this.handlers.filter(
+            function(item) {
+                if (item !== fn) {
+                    return item;
+                }
+            }
+        );
+    },
+ 
+    updateScore: function(o, thisObj) {
+        var scope = thisObj;
+        this.handlers.forEach(function(item) {
+            item.call(scope, o);
+        });
+    }
+}
+ 
+var scoreboard = (function() {
+    //var score = 0;
+    return {
+        increaseScore: function(scoreVal) { game.data.score += scoreVal },
+        show: function() { console.log(score); }
+    }
+})();
+ 
