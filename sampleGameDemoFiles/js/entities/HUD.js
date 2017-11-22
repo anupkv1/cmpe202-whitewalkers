@@ -22,7 +22,7 @@ game.HUD.Container = me.Container.extend({
         this.name = "HUD";
 
         // add our child score object at the top left corner
-        this.addChild(new game.HUD.ScoreItem(-10, -10));
+        this.addChild(new game.HUD.ScoreItem(10, 50));
     }
 });
 
@@ -41,14 +41,17 @@ game.HUD.ScoreItem = me.Renderable.extend({
         this._super(me.Renderable, 'init', [x, y, 10, 10]);
 
         //create the font object
-        this.font = new me.BitmapFont(me.loader.getBinary('PressStart2P'),me.loader.getImage('PressStart2P'));
-
+        //this.font = new me.BitmapFont(me.loader.getBinary('PressStart2P'),me.loader.getImage('PressStart2P'));
+        this.font = new me.Font("Arial", 20, "white", "left");
         //font alignment to right bottom
-        this.font.textAlign = "right";
+        this.font.scale = 1.0
+        this.font.textAlign = "left";
         this.font.textBaseline = "bottom";
 
         // local copy of the global score
         this.score = -1;
+        this.noOfLives = -1;
+        this.noOfShots = -1;
     },
 
     /**
@@ -61,6 +64,15 @@ game.HUD.ScoreItem = me.Renderable.extend({
             this.score = game.data.score;
             return true;
         }
+        if (this.noOfLives !== game.data.noOfLives) {
+            this.noOfLives = game.data.noOfLives;
+            return true;
+        }
+        if (this.noOfShots !== game.data.noOfShots) {
+            this.noOfShots = game.data.noOfShots;
+            return true;
+        }
+
         return false;
     },
 
@@ -68,8 +80,12 @@ game.HUD.ScoreItem = me.Renderable.extend({
      * draw the score
      */
     draw : function (renderer) {
-        // draw it baby !
-        this.font.draw (renderer, game.data.score, me.game.viewport.width + this.pos.x, me.game.viewport.height+this.pos.y);
+        this.font.draw (renderer, "Score: ", this.pos.x,  this.pos.y);
+        this.font.draw (renderer, game.data.score,  this.pos.x + 100, this.pos.y);
+        this.font.draw (renderer, "Lives: ", this.pos.x , this.pos.y + 30);
+        this.font.draw (renderer, game.data.noOfLives, this.pos.x + 100, this.pos.y + 30);
+        this.font.draw (renderer, "Shots: ", this.pos.x, this.pos.y + 60);
+        this.font.draw (renderer, game.data.noOfShots, this.pos.x + 100, this.pos.y + 60);
         }
     });
 

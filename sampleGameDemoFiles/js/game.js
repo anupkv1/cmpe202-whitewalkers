@@ -5,13 +5,15 @@ var game = {
     // an object where to store game information
     data : {
         // score
-        score : 0
+        score : 0,
+        noOfLives : 10,
+        noOfShots : 0
     },
 
 
     // Run on page load.
     "onload" : function () {
-        console.log("****game.js*** fn: onload***");
+        //console.log("****game.js*** fn: onload***");
         // Initialize the video.
         if (!me.video.init(640, 480, {wrapper : "screen", scale : "auto", scaleMethod : "flex-width"})) {
             alert("Your browser does not support HTML5 canvas.");
@@ -31,7 +33,7 @@ var game = {
 
     // Run on game resources loaded.
     "loaded" : function () {
-        console.log("***game.js*** fn: loaded***")
+        //console.log("***game.js*** fn: loaded***")
         me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
 
