@@ -3,6 +3,9 @@ game.PlayScreen = me.ScreenObject.extend({
      *  action to perform on state change
      */
     onResetEvent: function() {
+
+        me.audio.playTrack("dst-inertexponent");
+
         console.log("***play.js fn:onResetEvent***0");
 	//load a level
 	me.levelDirector.loadLevel("area01");
@@ -21,6 +24,9 @@ game.PlayScreen = me.ScreenObject.extend({
      *  action to perform when leaving this screen (state change)
      */
     onDestroyEvent: function() {
+
+        me.audio.stopTrack();
+
         console.log("***play.js fn:onDestroyEvent***0");
         // remove the HUD from the game world
         me.game.world.removeChild(this.HUD);

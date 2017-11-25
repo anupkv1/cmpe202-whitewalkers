@@ -20,6 +20,13 @@ var game = {
             return;
         }
 
+        // add "#debug" to the URL to enable the debug Panel
+        if (me.game.HASH.debug === true) {
+            window.onReady(function () {
+                me.plugin.register.defer(this, me.debug.Panel, "debug", me.input.KEY.V);
+            });
+        }
+
         // Initialize the audio.
         me.audio.init("mp3,ogg");
 
@@ -34,8 +41,15 @@ var game = {
     // Run on game resources loaded.
     "loaded" : function () {
         //console.log("***game.js*** fn: loaded***")
+
+        //Set the title screen object
         me.state.set(me.state.MENU, new game.TitleScreen());
+
+        //Set the play sceen object
         me.state.set(me.state.PLAY, new game.PlayScreen());
+
+        //Set a global fading transition for the screens
+        me.state.transition("fade", "#FFFFFF", 250);
 
         // add our player entity in the entity pool
         me.pool.register("mainPlayer", game.PlayerEntity);
@@ -48,7 +62,7 @@ var game = {
         me.input.bindKey(me.input.KEY.SPACE,  "jump", true);
 
         // Start the game.
-        me.state.change(me.state.PLAY);
+        me.state.change(me.state.MENU);
     }
 };
 

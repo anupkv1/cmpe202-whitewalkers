@@ -88,6 +88,8 @@ game.PlayerEntity = me.Entity.extend({
 
                 // set the jumping flag
                 this.body.jumping = true;
+
+                me.audio.play("jump");
             }
         }
 
@@ -137,6 +139,8 @@ game.PlayerEntity = me.Entity.extend({
                     this.body.jumping = true;
                     console.log("Score counter: Player collision with enemy");
                     this.scoreSubject.updateScore(0,-1,0);
+
+                    me.audio.play("stomp");
                 }
                 else {
                     // let's flicker in case we touched an enemy
@@ -180,6 +184,8 @@ game.CoinEntity = me.CollectableEntity.extend({
 
         // game.data.score +=250;
         // make sure it cannot be collected "again"
+        me.audio.play("cling");
+
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);
 
         // remove it
