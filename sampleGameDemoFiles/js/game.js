@@ -56,6 +56,9 @@ var game = {
         me.pool.register("CoinEntity",  game.CoinEntity); // add coin entity to entity pool
         me.pool.register("EnemyEntity", game.EnemyEntity);// add enemy entity to entity pool
 
+        me.pool.register("FlyingEnemy", game.FlyingEnemy);
+
+
         // enable the keyboard
         me.input.bindKey(me.input.KEY.LEFT,  "left");
         me.input.bindKey(me.input.KEY.RIGHT, "right");

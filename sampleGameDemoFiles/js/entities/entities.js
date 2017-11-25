@@ -30,8 +30,8 @@ game.PlayerEntity = me.Entity.extend({
         // set the standing animation as default
         this.renderable.setCurrentAnimation("stand");
 
-        var scoreHandler = function(score, lives, shots) { 
-            scoreboard.increaseScore(score, lives, shots); 
+        var scoreHandler = function(score, lives, shots) {
+            scoreboard.increaseScore(score, lives, shots);
         };
         this.scoreSubject = new ScoreSubject();
         this.scoreSubject.subscribe(scoreHandler);
@@ -41,7 +41,7 @@ game.PlayerEntity = me.Entity.extend({
      * update the entity
      */
     update: function(dt) {
-       // console.log("***entities.js class: PlayerEntity fn:update***");
+        // console.log("***entities.js class: PlayerEntity fn:update***");
 
         if (me.input.isKeyPressed('left')) {
             //console.log("***entities.js fn:update*** if:left");
@@ -57,7 +57,7 @@ game.PlayerEntity = me.Entity.extend({
                 this.renderable.setCurrentAnimation("walk");
             }
         } else if (me.input.isKeyPressed('right')) {
-           // console.log("***entities.js fn:update if:right ***");
+            // console.log("***entities.js fn:update if:right ***");
 
             // unflip the sprite
             this.renderable.flipX(false);
@@ -70,7 +70,7 @@ game.PlayerEntity = me.Entity.extend({
                 this.renderable.setCurrentAnimation("walk");
             }
         } else {
-           // console.log("***entities.js fn:update*** else***");
+            // console.log("***entities.js fn:update*** else***");
             this.body.vel.x = 0;
 
             // change to the standing animation
@@ -78,7 +78,7 @@ game.PlayerEntity = me.Entity.extend({
         }
 
         if (me.input.isKeyPressed('jump')) {
-           // console.log("***entities.js fn:update if: jump***");
+            // console.log("***entities.js fn:update if: jump***");
 
             // make sure we are not already jumping or falling
             if (!this.body.jumping && !this.body.falling) {
@@ -146,12 +146,12 @@ game.PlayerEntity = me.Entity.extend({
                     // let's flicker in case we touched an enemy
                     this.renderable.flicker(750);
                 }
-                return true;    
+                return true;
                 break;
             case me.collision.types.COLLECTABLE_OBJECT:
                 console.log("Score counter: Player collision with coin");
                 this.scoreSubject.updateScore(1, 0, 0); //score, lives, shots
-                return true;    
+                return true;
                 break;
 
             default:
@@ -161,7 +161,7 @@ game.PlayerEntity = me.Entity.extend({
 
         // Make the object solid
         return true;
-        }
+    }
 });
 
 /** A coin entitty **/
@@ -171,7 +171,7 @@ game.CoinEntity = me.CollectableEntity.extend({
     // extending the init function is not mandatory
     // unless you need to add some extra initialization
     init: function (x, y, settings) {
-       // console.log("****Entity.js*** class:CoinEntity**** fn:init");
+        // console.log("****Entity.js*** class:CoinEntity**** fn:init");
         // call the parent constructor
         this._super(me.CollectableEntity, 'init', [x, y , settings]);
 
@@ -202,7 +202,7 @@ game.EnemyEntity = me.Entity.extend({
     init: function (x, y, settings) {
         settings.image = "wheelie_right"; /*Definfing image instead of Tiled*/
 
-    //save the area size defined in tiled
+        //save the area size defined in tiled
         var width = settings.width;
         var height = settings.height;
 
@@ -232,7 +232,7 @@ game.EnemyEntity = me.Entity.extend({
         this.body.setVelocity(4,6);
 
 
-        
+
     },
 
     /**
@@ -248,7 +248,7 @@ game.EnemyEntity = me.Entity.extend({
                 this.walkLeft = true;
             }
 
-        //    make it walk
+            //    make it walk
             this.renderable.flipX(this.walkLeft);
             this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
         }
@@ -290,14 +290,14 @@ game.EnemyEntity = me.Entity.extend({
 function ScoreSubject() {
     this.handlers = [];  // observers
 }
- 
+
 ScoreSubject.prototype = {
- 
+
     subscribe: function(fn) {
         console.log("Player subscribed to score board");
         this.handlers.push(fn);
     },
- 
+
     unsubscribe: function(fn) {
         this.handlers = this.handlers.filter(
             function(item) {
@@ -307,7 +307,7 @@ ScoreSubject.prototype = {
             }
         );
     },
- 
+
     updateScore: function(score, lives, shots, thisObj) {
         var scope = thisObj;
         this.handlers.forEach(function(item) {
@@ -315,11 +315,11 @@ ScoreSubject.prototype = {
         });
     }
 }
- 
+
 var scoreboard = (function() {
     //var score = 0;
     return {
-        increaseScore: function(score, lives, shots) { 
+        increaseScore: function(score, lives, shots) {
             // console.log("Score board: Increase Score function called");
             // console.log(score);
             // console.log(lives);
@@ -327,8 +327,11 @@ var scoreboard = (function() {
             game.data.score += score;
             game.data.noOfLives += lives;
             game.data.noOfShots += shots;
-         },
+        },
         show: function() { console.log(score); }
     }
 })();
- 
+
+
+
+
