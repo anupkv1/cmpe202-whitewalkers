@@ -8,6 +8,8 @@ game.PlayerEntity = me.Entity.extend({
      * constructor
      */
     init: function(x, y, settings) {
+
+
         //console.log("***entities.js class: PlayerEntity fn:init*** ");
         // call the constructor
         this._super(me.Entity, 'init', [x, y, settings]);
@@ -22,19 +24,31 @@ game.PlayerEntity = me.Entity.extend({
         this.alwaysUpdate = true;
 
         //define the basic walking animation (using all frames)
-        this.renderable.addAnimation("walk", [0, 1, 2, 3, 4, 5, 6, 7]);
+        this.renderable.addAnimation("walk", [0,1,2,3,4, 5, 6, 7]);
+
+        this.renderable.addAnimation("fall", [0]);
+        this.renderable.addAnimation("shoot", [3]);
+        this.renderable.addAnimation("shoot_jump", [7]);
+        this.renderable.addAnimation("jump", [7]);
+        // this.renderable.addAnimation("die", [, 23, 11, 23, 11, 23, 11, 23]);
+
+        this.renderable.addAnimation("idle", [0]);
 
         // define the standing animation using first frame
-        this.renderable.addAnimation("stand", [0]);
+
 
         // set the standing animation as default
-        this.renderable.setCurrentAnimation("stand");
+        this.renderable.setCurrentAnimation("idle");
 
         var scoreHandler = function(score, lives, shots) {
             scoreboard.increaseScore(score, lives, shots);
         };
         this.scoreSubject = new ScoreSubject();
         this.scoreSubject.subscribe(scoreHandler);
+
+        this.shootDelay = 0;
+
+        this.direction = 1;
     },
 
     /**
@@ -43,11 +57,16 @@ game.PlayerEntity = me.Entity.extend({
     update: function(dt) {
         // console.log("***entities.js class: PlayerEntity fn:update***");
 
+        if (this.shootDelay > 0) {
+            this.shootDelay -= dt;
+        }
+
         if (me.input.isKeyPressed('left')) {
             //console.log("***entities.js fn:update*** if:left");
 
             // flip the sprite on horizontal axis
             this.renderable.flipX(true);
+            this.direction = -1;
 
             //update the entity velocity
             this.body.vel.x -= this.body.accel.x * me.timer.tick;
@@ -61,6 +80,7 @@ game.PlayerEntity = me.Entity.extend({
 
             // unflip the sprite
             this.renderable.flipX(false);
+            this.direction = 1;
 
             // update the entity velocity
             this.body.vel.x += this.body.accel.x * me.timer.tick;
@@ -74,7 +94,7 @@ game.PlayerEntity = me.Entity.extend({
             this.body.vel.x = 0;
 
             // change to the standing animation
-            this.renderable.setCurrentAnimation("stand");
+            this.renderable.setCurrentAnimation("idle");
         }
 
         if (me.input.isKeyPressed('jump')) {
@@ -93,6 +113,11 @@ game.PlayerEntity = me.Entity.extend({
             }
         }
 
+        if(me.input.isKeyPressed('shoot')){
+            console.log("***entities.js fn:update if: shoot***");
+            this.shoot();
+        }
+
         // apply physics to the body (this moves the entity)
         this.body.update(dt);
 
@@ -103,65 +128,136 @@ game.PlayerEntity = me.Entity.extend({
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
     },
 
+    shoot: function() {
+        console.log("***Shooting***");
+        if (this.shootDelay <= 0) {
+            // me.audio.play("shoot", false, null, 0.6);
+            var b = new Laser(this.pos.x + 30 * this.direction, this.pos.y + 40, {direction: this.direction});
+            me.game.world.addChild(b);
+            me.game.world.sort();
+            this.shootDelay = 200;
+            var self = this;
+            if (this.body.jumping || this.body.falling) {
+                this.renderable.setCurrentAnimation("shoot_jump", function () {
+                    self.renderable.setCurrentAnimation("fall");
+                });
+            } else {
+                this.renderable.setCurrentAnimation("shoot", function () {
+                    self.renderable.setCurrentAnimation("idle");
+                })
+            }
+
+
+        }
+    },
+
     /**
      * colision handler
      * (called when colliding with other objects)
      */
     onCollision: function(response, other) {
         //console.log("***entities.js  class: PlayerEntity fn:onCollision***");
-        switch (response.b.body.collisionType){
-            case me.collision.types.WORLD_SHAPE:
-                // Simulate a platform object
-                if (other.type === "platform"){
-                    if(this.body.falling && !me.input.isKeyPressed("down") &&
-                        // Shortest overlap would move the player upward
-                        (reponse.overlapV.y > 0) &&
-                        // The velocity is reasonably fast enough to have penetrated to the overlap depth
-                        (~~this.body.vel.y >= ~~response.overlapV.y)
-                    ){
-                        // Disable collision on the x axis
-                        response.overlapV.x = 0;
-                        // Repond to the platform (it is solid)
-                        return true;
-                    }
-                    // Do not respond to the platform (pass through)
-                    return false;
-                }
-                break;
+        // switch (response.b.body.collisionType){
+        //     case me.collision.types.WORLD_SHAPE:
+        //         // Simulate a platform object
+        //         if (other.type === "platform"){
+        //             if(this.body.falling && !me.input.isKeyPressed("down") &&
+        //                 // Shortest overlap would move the player upward
+        //                 (reponse.overlapV.y > 0) &&
+        //                 // The velocity is reasonably fast enough to have penetrated to the overlap depth
+        //                 (~~this.body.vel.y >= ~~response.overlapV.y)
+        //             ){
+        //                 // Disable collision on the x axis
+        //                 response.overlapV.x = 0;
+        //                 // Repond to the platform (it is solid)
+        //                 return true;
+        //             }
+        //             // Do not respond to the platform (pass through)
+        //             return false;
+        //         }
+        //         break;
+        //
+        //     case me.collision.types.ENEMY_OBJECT:
+        //         if ((response.overlapV.y>0) && !this.body.jumping) {
+        //             // bounce (force jump)
+        //             this.body.falling = false;
+        //             this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+        //
+        //             // set the jumping flag
+        //             this.body.jumping = true;
+        //             console.log("Score counter: Player collision with enemy");
+        //             this.scoreSubject.updateScore(0,-1,0);
+        //
+        //             me.audio.play("stomp");
+        //         }
+        //         else {
+        //             // let's flicker in case we touched an enemy
+        //             this.renderable.flicker(750);
+        //         }
+        //         return true;
+        //         break;
+        //     case me.collision.types.COLLECTABLE_OBJECT:
+        //         console.log("Score counter: Player collision with coin");
+        //         this.scoreSubject.updateScore(1, 0, 0); //score, lives, shots
+        //         return true;
+        //         break;
 
-            case me.collision.types.ENEMY_OBJECT:
-                if ((response.overlapV.y>0) && !this.body.jumping) {
-                    // bounce (force jump)
-                    this.body.falling = false;
-                    this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+            // default:
+            //     // Do not respond to other objects (e.g. coins)
+            //     return false;
+        // }
 
-                    // set the jumping flag
-                    this.body.jumping = true;
-                    console.log("Score counter: Player collision with enemy");
-                    this.scoreSubject.updateScore(0,-1,0);
+        if(response.b.body.collisionType == me.collision.types.WORLD_SHAPE){
+            // Simulate a platform object
+                    if (other.type === "platform"){
+                        if(this.body.falling && !me.input.isKeyPressed("down") &&
+                            // Shortest overlap would move the player upward
+                            (reponse.overlapV.y > 0) &&
+                            // The velocity is reasonably fast enough to have penetrated to the overlap depth
+                            (~~this.body.vel.y >= ~~response.overlapV.y)
+                        ){
+                            // Disable collision on the x axis
+                            response.overlapV.x = 0;
+                            // Repond to the platform (it is solid)
+                            return true;
+                        }
+                        // Do not respond to the platform (pass through)
+                        return false;
+        }
+        }
+        else if(response.b.body.collisionType==me.collision.types.COLLECTABLE_OBJECT) {
+            // console.log("Score counter: Player collision with coin");
+            this.scoreSubject.updateScore(1, 0, 0); //score, lives, shots
+            me.audio.play("cling");
+            return true;
 
-                    me.audio.play("stomp");
-                }
-                else {
-                    // let's flicker in case we touched an enemy
-                    this.renderable.flicker(750);
-                }
-                return true;
-                break;
-            case me.collision.types.COLLECTABLE_OBJECT:
-                console.log("Score counter: Player collision with coin");
-                this.scoreSubject.updateScore(1, 0, 0); //score, lives, shots
-                return true;
-                break;
-
-            default:
-                // Do not respond to other objects (e.g. coins)
-                return false;
         }
 
-        // Make the object solid
-        return true;
+        else if(other.name === "EnemyEntity"){
+            if ((response.overlapV.y>0) && !this.body.jumping) {
+                            // bounce (force jump)
+                            this.body.falling = false;
+                            this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+
+                            // set the jumping flag
+                            this.body.jumping = true;
+                            console.log("Score counter: Player collision with enemy");
+                            this.scoreSubject.updateScore(0,-1,0);
+
+                            me.audio.play("stomp");
+                        }
+                        else {
+                //             // let's flicker in case we touched an enemy
+                            this.renderable.flicker(750);
+                        }
+                        return true;
+        }
+        else{
+            return false;
+        }
     }
+
+
 });
 
 /** A coin entitty **/
@@ -331,7 +427,5 @@ var scoreboard = (function() {
         show: function() { console.log(score); }
     }
 })();
-
-
 
 
